@@ -32,8 +32,12 @@ public class Launch {
 //        System.out.println(s);
 //        System.out.println("Current dir " + System.getProperty("user.dir"));
 
+/*метод используется, если данный поступают на станддартный ввод-вывод*/
         jsonHandler.jsonHandlerFromStandardIO();
-//        jsonHandler.jsonHandlerFromFile(file);
+
+/*метод используется, если данный считываются с файла
+        jsonHandler.jsonHandlerFromFile(file);*/
+
 //        dbPRop.loadProperties();
 
 //        xmlParser();

@@ -1,15 +1,14 @@
 package IO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class StandardInToString {
+/*Класс предназначен для чтения данных из стандартного ввода вывода*/
+public class ReadDataFromStandardIO {
 
+    /*данные со стандартного ввода преобразуем в строку - String*/
     public String inToString() throws IOException {
         Scanner sc = new Scanner(System.in);
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         String input = null;
 
@@ -19,7 +18,7 @@ public class StandardInToString {
             if (input.equals(""))
                 break;
         }
-        System.out.println("===========================================");
+        System.out.println("==================== Данные прочитаны =======================");
         return sb.toString();
     }
 }
