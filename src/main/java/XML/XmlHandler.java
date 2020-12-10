@@ -5,6 +5,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/*Парсинг XML*/
 public class XmlHandler extends DefaultHandler {
 
     private String currentElement = null;

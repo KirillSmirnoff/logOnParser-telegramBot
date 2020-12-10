@@ -3,21 +3,17 @@ package dao;
 import java.io.*;
 import java.util.Properties;
 
+/*ЗАГРУЖАЕТ ФАЙЛ СО ЗНАЧЕНИЯМИ ТЕГОВ*/
 public class DataFromProperties {
-    public Properties loadProperties() throws IOException {
+    public Properties loadProperties()  {
         Properties properties = new Properties();
-//        File file = new File("/home/k2/Desktop/IdeaProjects/IdeaProjects/test/LogOnelyaParser/src/main/resources/tags.txt");
-//        File file = new File();
-//        if (file.exists()) {
+        try {
             properties.load(new BufferedReader(new InputStreamReader(DataFromProperties.class.getResourceAsStream("/tags.txt"),"UTF-8")));
-//            System.out.println("YEAH find");
-//        } else
-//            System.out.println("file not found");
+        } catch (IOException e) {
+            System.out.println("ФАЙЛ СО ЗНАЧЕНИЯМИ ТЕГОВ НЕ НАЙДЕН\n");
+            e.printStackTrace();
+        }
+
         return properties;
     }
-
-
 }
-
-//tags.txt
-//        src/main/resources/tags.txt

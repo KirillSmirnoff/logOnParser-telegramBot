@@ -1,6 +1,9 @@
 package dao;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Scanner;
 
 public class DataBase {
     private Connection connection = null;
@@ -30,7 +33,7 @@ public class DataBase {
         return connection;
     }
 
-    public void persist (String query, String [] values ) {
+    private void persist (String query, String [] values ) {
         try {
             statement = getConnection().prepareStatement(query);
             statement.setString(1, values[0]);
@@ -41,10 +44,10 @@ public class DataBase {
             statement.execute();
             connection.commit();
 
-        } catch (SQLException throwables) {
+        } catch (SQLException e) {
             rollbackConnection();
             System.out.println("rollbackConnection");
-            throwables.printStackTrace();
+            e.printStackTrace();
         } finally {
             closeConnection();
             System.out.println("closeConnection");
@@ -87,6 +90,27 @@ public class DataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void readFromFileAndPersist(File src, String query) {
+        String[] values;
+        try (Scanner scanner = new Scanner(src)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                values = line.split("%");
+                persist(query, startInizialization(values));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String[] startInizialization(String[] originValues) {
+        String[] mustValues = {"not value", "not value", "not value", "not value"};
+        for (int i = 0; i < originValues.length; i++) {
+            mustValues[i] = originValues[i];
+        }
+        return mustValues;
     }
 }
 
