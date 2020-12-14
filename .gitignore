@@ -12,7 +12,10 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+#added it myself
+target/
 .idea/
+JSON_Answer.json
 
 # Package Files #
 *.jar
