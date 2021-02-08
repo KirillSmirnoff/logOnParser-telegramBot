@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 
-public class DataBase {
+public class DataBase{
     private Connection connection = null;
     private PreparedStatement statement = null;
 

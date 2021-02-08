@@ -11,7 +11,6 @@ import java.io.IOException;
 public class Bot extends TelegramLongPollingBot {
 
 
-
     @Override
     public String getBotUsername() {
         return "roboStatic_bot";
@@ -19,18 +18,19 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1526625239:AAGUlrDQlu8FN_iXT1BpSu8FM8u8UitGtvk";
+        return "<token>";
     }
 
     @Override
     public void onUpdateReceived(Update update) {
         JsonHandler jsonHandler = new JsonHandler();
+        BotMethods methods = new BotMethods();
+        SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
-                    message.setChatId(update.getMessage().getChatId().toString());
+            message.setChatId(update.getMessage().getChatId().toString());
             try {
-                String mesage = jsonHandler.jsonHandlerToTelegram(update.getMessage().getText());
+                String mesage = jsonHandler.convert(update.getMessage().getText());
                 message.setText(mesage);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -38,6 +38,16 @@ public class Bot extends TelegramLongPollingBot {
             try {
                 execute(message); // Call method to send the message
             } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        } else if (update.hasMessage() && update.getMessage().hasDocument()) { // Обработка документа
+            message.setChatId(update.getMessage().getChatId().toString());
+            try {
+                methods.getFile(update);
+                message.setText("Обработка файлов в бесплатной версии не поддерживается");
+
+                execute(message);
+            } catch (TelegramApiException | IOException e) {
                 e.printStackTrace();
             }
         }
