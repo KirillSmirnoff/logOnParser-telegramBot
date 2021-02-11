@@ -1,6 +1,7 @@
 package bot;
 
 import JSON.JsonHandler;
+import init.Init;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,7 +19,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "<token>";
+        return Init.TOKEN;
     }
 
     @Override

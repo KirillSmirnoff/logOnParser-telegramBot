@@ -11,6 +11,8 @@ import java.io.IOException;
 public class Launch {
 
     public static void main(String[] args) {
+        Init.start();
+
         /*Регистрация телеграмм бота*/
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -18,6 +20,5 @@ public class Launch {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-        Init.start();
     }
 }

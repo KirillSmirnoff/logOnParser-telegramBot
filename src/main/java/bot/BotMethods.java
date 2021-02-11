@@ -3,6 +3,7 @@ package bot;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import init.Init;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.*;
@@ -16,7 +17,7 @@ public class BotMethods {
 
         String file_path = getFileInfo(file_id);
 
-        URL urlDownloadFile = new URL("https://api.telegram.org/file/bot<token>/"+file_path);
+        URL urlDownloadFile = new URL("https://api.telegram.org/file/bot"+ Init.TOKEN+"/"+file_path);
         InputStream in = urlDownloadFile.openStream();
 
         ReadableByteChannel readableByteChannel = Channels.newChannel(in);
@@ -43,7 +44,7 @@ public class BotMethods {
     private String getFileInfo(String file_id) {
         URL urlAboutFile = null;
         try {
-            urlAboutFile = new URL("https://api.telegram.org/bot<token>/getFile?file_id="+file_id);
+            urlAboutFile = new URL("https://api.telegram.org/bot"+ Init.TOKEN+"/getFile?file_id="+file_id);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
