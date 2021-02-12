@@ -1,12 +1,16 @@
 package bot;
 
 import JSON.JsonHandler;
+import dao.OperationWithFiles;
 import init.Init;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Bot extends TelegramLongPollingBot {
@@ -25,29 +29,41 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         JsonHandler jsonHandler = new JsonHandler();
+        OperationWithFiles operation = new OperationWithFiles();
         BotMethods methods = new BotMethods();
         SendMessage message = new SendMessage(); // Create a SendMessage object with mandatory fields
+        SendDocument document = new SendDocument();
+        InputFile inputFile = new InputFile();
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            message.setChatId(update.getMessage().getChatId().toString());
+            String chatID = update.getMessage().getChatId().toString();
+            int length = update.getMessage().getText().length();
             try {
-                String mesage = jsonHandler.convert(update.getMessage().getText());
-                message.setText(mesage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                execute(message); // Call method to send the message
-            } catch (TelegramApiException e) {
+                if (length > 4050) {
+                    message.setChatId(chatID);
+                    message.setText("Лимит на ограничение длинны сообщений, информацию следует отправлять в текстовом файле");
+                } else {
+                    String messageString = jsonHandler.convert(update.getMessage().getText());
+                    if(messageString.length() < 4050) {
+                        message.setChatId(chatID);
+                        message.setText(messageString);
+                        execute(message);
+                    }else {
+                        File jsonAnswer = operation.saveResultToFile(messageString);
+                        document.setChatId(chatID);
+                        document.setDocument(inputFile.setMedia(jsonAnswer));
+                        execute(document);
+                    }
+                }
+
+            } catch (IOException | TelegramApiException e) {
                 e.printStackTrace();
             }
         } else if (update.hasMessage() && update.getMessage().hasDocument()) { // Обработка документа
-            message.setChatId(update.getMessage().getChatId().toString());
+            document.setChatId(update.getMessage().getChatId().toString());
             try {
-                methods.getFile(update);
-                message.setText("Обработка файлов в бесплатной версии не поддерживается");
-
-                execute(message);
+                document.setDocument(inputFile.setMedia(methods.convertFromFile(update)));
+                execute(document);
             } catch (TelegramApiException | IOException e) {
                 e.printStackTrace();
             }

@@ -6,7 +6,8 @@ import java.util.Properties;
 
 public class OperationWithFiles {
     public File saveResultToFile(String jsonString) throws IOException {
-        File jsonFile = Paths.get(System.getProperty("user.dir") + "/JSON_Answer.json").toFile();
+//        File jsonFile = Paths.get(System.getProperty("user.dir") + "/JSON_Answer.json").toFile();
+        File jsonFile = Paths.get("/home/k2/IdeaProjects/LogOnelyaParser/src/main/resources/json_temp_file").toFile();
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(jsonFile), "UTF-8");
 
         writer.write(jsonString);
