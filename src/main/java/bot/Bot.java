@@ -3,6 +3,7 @@ package bot;
 import JSON.JsonHandler;
 import dao.OperationWithFiles;
 import init.Init;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
