@@ -18,14 +18,14 @@ public class Launch {
 
         /*Регистрация телеграмм бота*/
 
-        try (ServerSocket serverSocket = new ServerSocket(Integer.parseInt(System.getenv("PORT")))) {
-            Socket clientSocket = new Socket();
-            while (!clientSocket.isBound()) {
-                clientSocket = serverSocket.accept();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try (ServerSocket serverSocket = new ServerSocket(Integer.parseInt(System.getenv("PORT")))) {
+//            Socket clientSocket = new Socket();
+//            while (!clientSocket.isBound()) {
+//                clientSocket = serverSocket.accept();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         try {
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(new Bot());
